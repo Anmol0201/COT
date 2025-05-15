@@ -29,7 +29,7 @@ def scrape_bing_news(query: str) -> str:
         resp = requests.get(url, headers=headers, timeout=10)
         soup = BeautifulSoup(resp.text, "html.parser")
 
-        # Try to get news cards
+        
         articles = soup.select("div.news-card") or soup.select("div.t_s") or soup.select("div.news-card-newsitem")
         if not articles:
             return ""
@@ -68,16 +68,17 @@ def scrape_bbc_world_news() -> str:
     except Exception:
         return ""
 
+# UI
 st.title("Live News Search with Chain of Thought Reasoning")
 
 user_query = st.text_input("Enter your search query:")
 
 if user_query:
     with st.spinner("Fetching and analyzing news..."):
-        # Try Bing News first
+        
         context = scrape_bing_news(user_query)
 
-        # Fallback to BBC News if Bing returns nothing
+        
         if not context:
             context = scrape_bbc_world_news()
 
